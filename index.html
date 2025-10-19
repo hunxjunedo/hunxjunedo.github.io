@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cedar College Chat</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+  <style>
+    :root {
+      --accent-1: #0f274a;
+      --accent-2: #ffcb09;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      margin: 0;
+      background: var(--accent-1);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .welcome {
+      background: white;
+      color: var(--accent-1);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      max-width: 400px;
+    }
+
+    .welcome img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    /* #n8n-chat{
+        display: none;
+    } */
+
+    .chat-window {
+        display: none;
+    }
+
+    .chat-window-toggle {
+        display: none !important;
+    }
+
+    .welcome h1 {
+      color: var(--accent-1);
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .welcome p {
+      color: #33455a;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+
+    .start-btn {
+      background: var(--accent-2);
+      color: var(--accent-1);
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .start-btn:hover {
+      background: #ffd73d;
+      transform: translateY(-2px);
+    }
+
+    /* Chat widget overrides */
+    .n8n-chat .chat-header {
+      background: linear-gradient(90deg, var(--accent-1), rgba(15,39,74,0.9));
+      color: white;
+    }
+
+    .n8n-chat .chat-send-button, .n8n-chat .suggestion-button {
+      background: var(--accent-2);
+      color: var(--accent-1);
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .n8n-chat .chat-launcher {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome">
+    <img src="logo.png" alt="Cedar College Logo" />
+    <p>Chat with your AI assistant</p>
+    <button class="start-btn" id="startChat">Start Chat</button>
+  </div>
+  <div id="n8n-chat"></div>
+
+  <script type="module">
+
+    // CONFIGURATION
+    let agent_name = "Mustafa";
+    let webhookUrl = "https://n8nem.clartegroup.com/webhook/ac33d69b-c426-4668-bae5-8a6215e7a662/chat";
+
+
+
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    const chat = createChat({
+      target: "#n8n-chat",
+      initialMessages: [
+		'Hi there! 👋',
+		'My name is '+agent_name+'. How can I assist you today?'
+	  ],
+      webhookUrl,
+      title: 'Cedar College Assistant',
+      subtitle: 'We’re here to help!',
+    });
+
+    document.getElementById('startChat').addEventListener('click', () => {
+      const chatContainer = document.querySelector('.chat-window');
+      if (!chatContainer) return;
+      if (chatContainer.style.display === 'flex') {
+        chatContainer.style.display = 'none';
+        document.querySelector('.start-btn').textContent = 'Start Chat';
+      } else {
+        chatContainer.style.display = 'flex';
+        document.querySelector('.start-btn').textContent = 'Close Chat';
+      }
+    });
+  </script>
+</body>
+</html>
